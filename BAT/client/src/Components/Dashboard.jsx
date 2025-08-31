@@ -34,9 +34,12 @@ const Dashboard = () => {
     const fetchDashboard = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/dashboard", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          "https://teambirthdayanniversarytracker.onrender.com/dashboard",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setMessage(res.data.message);
       } catch (err) {
         setSnackbar({
@@ -55,9 +58,12 @@ const Dashboard = () => {
 
   const fetchMonthEvents = async (query = "") => {
     try {
-      const res = await axios.get("http://localhost:5000/events/month", {
-        params: { search: query },
-      });
+      const res = await axios.get(
+        "https://teambirthdayanniversarytracker.onrender.com/events/month",
+        {
+          params: { search: query },
+        }
+      );
       setMonthEvents(res.data || []);
     } catch (err) {
       console.error("Failed to fetch month events", err);
@@ -67,7 +73,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTodayEvents = async () => {
       try {
-        const todayRes = await axios.get("http://localhost:5000/events/today");
+        const todayRes = await axios.get(
+          "https://teambirthdayanniversarytracker.onrender.com/events/today"
+        );
         setTodayEvents(todayRes.data || []);
       } catch (err) {
         console.error("Failed to fetch today’s events", err);

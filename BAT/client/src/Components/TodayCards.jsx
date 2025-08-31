@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const BASE_URL = "http://localhost:5000"; // adjust if different
+const BASE_URL = "https://teambirthdayanniversarytracker.onrender.com"; // adjust if different
 
 const TodayCards = ({ todayEvents }) => {
   const [open, setOpen] = useState(null);

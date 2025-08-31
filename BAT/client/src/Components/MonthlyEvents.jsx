@@ -16,7 +16,9 @@ const MonthlyEvents = () => {
   useEffect(() => {
     const fetchMonthEvents = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/events/month");
+        const res = await axios.get(
+          "https://teambirthdayanniversarytracker.onrender.com/events/month"
+        );
         setMonthEvents(res.data || []);
       } catch (err) {
         console.error("Failed to fetch this month's events", err);

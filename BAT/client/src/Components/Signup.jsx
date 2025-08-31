@@ -69,7 +69,10 @@ const Signup = () => {
     if (!validateForm()) return;
 
     try {
-      const res = await axios.post("http://localhost:5000/signup", formData);
+      const res = await axios.post(
+        "https://teambirthdayanniversarytracker.onrender.com/signup",
+        formData
+      );
       setSnackbar({
         open: true,
         message: res.data.message || "Signup successful!",

@@ -29,7 +29,7 @@ const Anniversary = ({ open, handleClose }) => {
   const fetchAnniversaries = async (query = "") => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/employee/anniversary",
+        "https://teambirthdayanniversarytracker.onrender.com/employee/anniversary",
         {
           params: { search: query },
         }

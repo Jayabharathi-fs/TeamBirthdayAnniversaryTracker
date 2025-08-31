@@ -28,9 +28,12 @@ const Birthday = ({ open, handleClose }) => {
 
   const fetchBirthdays = async (query = "") => {
     try {
-      const res = await axios.get("http://localhost:5000/employee/birthdays", {
-        params: { search: query },
-      });
+      const res = await axios.get(
+        "https://teambirthdayanniversarytracker.onrender.com/employee/birthdays",
+        {
+          params: { search: query },
+        }
+      );
 
       const formattedRows = res.data.map((emp) => ({
         id: emp._id,
