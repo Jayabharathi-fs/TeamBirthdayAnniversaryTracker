@@ -62,7 +62,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="footer">
-        <p>© 2025 Birthday Anniversary Tracker. Designed with ❤</p>
+        <p>© 2025 Birthday Anniversary Tracker.</p>
       </footer>
     </div>
   );
