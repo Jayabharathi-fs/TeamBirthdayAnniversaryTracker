@@ -15,21 +15,21 @@ import { Container } from "@mui/material";
 function App() {
   return (
     <Router>
-      <Container sx={{ mt: 4 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/form" element={<Form />} />
-          <Route path="/table" element={<Table />} />
-          {/*<Route path="/card" element={<Card />} />
+      {/*<Container sx={{ mt: 4 }}> */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/form" element={<Form />} />
+        <Route path="/table" element={<Table />} />
+        {/*<Route path="/card" element={<Card />} />
           <Route path="/calendar" element={<Calendar />} /> */}
-          <Route path="/todaycards" element={<Todaycards />} />
-          <Route path="/monthlyevents" element={<Monthlyevents />} />
-          <Route path="*" element={<Notfound />} />
-        </Routes>
-      </Container>
+        <Route path="/todaycards" element={<Todaycards />} />
+        <Route path="/monthlyevents" element={<Monthlyevents />} />
+        <Route path="*" element={<Notfound />} />
+      </Routes>
+      {/*</Container> */}
     </Router>
   );
 }

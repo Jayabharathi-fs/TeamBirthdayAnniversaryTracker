@@ -1,9 +1,11 @@
 import React from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
+import { FaCalendarAlt, FaBell, FaUsers } from "react-icons/fa";
 
 const Home = () => {
   const navigate = useNavigate();
+
   const handleGetStarted = () => {
     navigate("/login");
   };
@@ -11,52 +13,56 @@ const Home = () => {
   return (
     <div className="home-container">
       {/* Hero Section */}
-      <section className="hero">
+      <header className="hero">
+        <div className="overlay"></div>
         <div className="hero-content">
-          <h1>Welcome to Birthday Anniversary Tracker</h1>
-          <p>Track birthdays, anniversaries, and team events in one place.</p>
-          <button className="cta-btn" onClick={handleGetStarted}>
-            Get Started
+          <h1>
+            🎉 Celebrate Every <span>Moment</span>
+          </h1>
+          <p>
+            A stylish way to track birthdays, anniversaries & milestones — with
+            a touch of magic ✨
+          </p>
+          <button className="btn-glow" onClick={handleGetStarted}>
+            🚀 Get Started
           </button>
         </div>
-        <div className="hero-image">
-          <img
-            src="https://source.unsplash.com/600x400/?team,office"
-            alt="Corporate teamwork"
-          />
-        </div>
-      </section>
+      </header>
 
       {/* Features Section */}
       <section className="features">
-        <h2>What You Get</h2>
+        <h2>🔥 Why You’ll Love It</h2>
         <div className="features-grid">
           <div className="feature-card">
-            <img
-              src="https://source.unsplash.com/200x200/?calendar"
-              alt="Calendar"
-            />
+            <FaCalendarAlt className="icon" />
             <h3>Event Tracking</h3>
-            <p>Never miss a birthday or work anniversary again.</p>
+            <p>Never miss a special day again with elegant reminders.</p>
           </div>
           <div className="feature-card">
-            <img
-              src="https://source.unsplash.com/200x200/?notification"
-              alt="Notification"
-            />
-            <h3>Smart Reminders</h3>
-            <p>Get notified automatically on important dates.</p>
+            <FaBell className="icon" />
+            <h3>Smart Alerts</h3>
+            <p>Birthday and Anniversary remainders that match your style.</p>
           </div>
           <div className="feature-card">
-            <img src="https://source.unsplash.com/200x200/?team" alt="Team" />
-            <h3>Team Management</h3>
-            <p>Organize and celebrate milestones with your team.</p>
+            <FaUsers className="icon" />
+            <h3>Team Spirit</h3>
+            <p>Bring people together and celebrate milestones in style.</p>
           </div>
         </div>
       </section>
 
+      {/* Call-to-Action Section */}
+      <section className="cta-section">
+        <h2>Make Every Occasion Memorable</h2>
+        <p>Start today and never miss another celebration with your team.</p>
+        <button className="btn-glow" onClick={handleGetStarted}>
+          Get Started
+        </button>
+      </section>
+
+      {/* Footer */}
       <footer className="footer">
-        <p>© 2025 Birthday Anniversary Tracker. All rights reserved.</p>
+        <p>© 2025 Birthday Anniversary Tracker. Designed with ❤</p>
       </footer>
     </div>
   );
