@@ -147,6 +147,16 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="main-content">
+
+        <div>
+      {todayEvents.length > 0 && (
+        <div className="banner">
+          {todayEvents.length} event(s) today!
+        </div>
+      )}
+
+      {/* Render events list here */}
+    </div>
         {/* Today’s Celebrations */}
         <section className="events-section">
           <h2>🎉 Today’s Celebrations</h2>
