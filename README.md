@@ -80,7 +80,7 @@ This application helps teams celebrate birthdays, work anniversaries, and other 
 - **Best Practices:** 100
 - **SEO:** 100
 
-![Mobile Lighthouse Report](src/assets/lighthouse-analysis-mobile.jpg)
+![Mobile Lighthouse Report](BAT/client/src/assets/lighthouse-analysis-mobile.jpg)
 
 ### Desktop
 - **Performance:** 100
@@ -88,7 +88,7 @@ This application helps teams celebrate birthdays, work anniversaries, and other 
 - **Best Practices:** 100
 - **SEO:** 100
 
-![Desktop Lighthouse Report](src/assets/lighthouse-analysis-desktop.jpg)
+![Desktop Lighthouse Report](BAT/client/src/assets/lighthouse-analysis-desktop.jpg)
 
 
 
