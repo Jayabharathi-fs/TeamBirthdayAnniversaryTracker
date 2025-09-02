@@ -37,7 +37,7 @@ export default function Form({ open, handleClose }) {
     photo: "https://example.com/default-photo.jpg",
   });
 
-  // Snackbar included
+  const [formErrors, setFormErrors] = useState({});
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -47,60 +47,48 @@ export default function Form({ open, handleClose }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error dynamically as user types
+    if (formErrors[name]) {
+      setFormErrors((prev) => ({ ...prev, [name]: false }));
+    }
   };
 
-  // Form validation for email and past dates
+  // Form validation
   const validateForm = () => {
-    const { name, email, department, dob, doj } = formData;
-
-    if (!name || !email || !department || !dob || !doj) {
-      return "All fields are required.";
-    }
-
+    const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return "Invalid email address.";
-    }
 
-    const today = new Date();
+    if (!formData.name) errors.name = true;
+    if (!formData.email || !emailRegex.test(formData.email))
+      errors.email = true;
+    if (!formData.department) errors.department = true;
+    if (!formData.dob || new Date(formData.dob) >= new Date())
+      errors.dob = true;
+    if (!formData.doj || new Date(formData.doj) >= new Date())
+      errors.doj = true;
 
-    if (new Date(dob) >= today) {
-      return "Date of Birth must be in the past.";
-    }
-
-    if (new Date(doj) >= today) {
-      return "Date of Joining must be in the past.";
-    }
-
-    return null;
+    return errors;
   };
 
-  /*
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const error = validateForm();
-    if (error) {
-      setSnackbar({ open: true, message: error });
-      return;
-    }
-
-    console.log("Form submitted:", formData);
-    handleClose();
-  };
-  */
-
-  //Added for form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const error = validateForm();
-    if (error) {
-      setSnackbar({ open: true, message: error, severity: "warning" });
+
+    const errors = validateForm();
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      setSnackbar({
+        open: true,
+        message: "Please fill all required fields correctly",
+        severity: "warning",
+      });
       return;
     }
 
     try {
       const res = await axios.post(
-        "https://teambirthdayanniversarytracker.onrender.com/employee",
+        `${process.env.REACT_APP_API_URL}/employee`,
         formData
       );
       setSnackbar({
@@ -119,6 +107,7 @@ export default function Form({ open, handleClose }) {
           doj: "",
           photo: "https://example.com/default-photo.jpg",
         });
+        setFormErrors({});
       }, 2000);
     } catch (err) {
       setSnackbar({
@@ -128,6 +117,22 @@ export default function Form({ open, handleClose }) {
       });
     }
   };
+
+  // Helper to generate red outline styles for errors
+  const getFieldStyles = (fieldName) => ({
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "10px",
+      "& fieldset": {
+        borderColor: formErrors[fieldName] ? "red" : "#c4c4c4",
+      },
+      "&:hover fieldset": {
+        borderColor: formErrors[fieldName] ? "red" : "#0072ff",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: formErrors[fieldName] ? "red" : "#0072ff",
+      },
+    },
+  });
 
   return (
     <>
@@ -169,12 +174,7 @@ export default function Form({ open, handleClose }) {
           </IconButton>
         </DialogTitle>
 
-        <DialogContent
-          dividers
-          sx={{
-            backgroundColor: "#f9fafc",
-          }}
-        >
+        <DialogContent dividers sx={{ backgroundColor: "#f9fafc" }}>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -192,50 +192,31 @@ export default function Form({ open, handleClose }) {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "&:hover fieldset": {
-                    borderColor: "#0072ff",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#0072ff",
-                  },
-                },
-              }}
+              error={!!formErrors.name}
+              sx={getFieldStyles("name")}
             />
+
             <TextField
-              label="Email"
+              label="Email*"
               name="email"
               value={formData.email}
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "&:hover fieldset": {
-                    borderColor: "#0072ff",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#0072ff",
-                  },
-                },
-              }}
+              error={!!formErrors.email}
+              sx={getFieldStyles("email")}
             />
+
             <TextField
               select
-              label="Department"
+              label="Department*"
               name="department"
               value={formData.department}
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                },
-              }}
+              error={!!formErrors.department}
+              sx={getFieldStyles("department")}
             >
               {departments.map((dept) => (
                 <MenuItem key={dept} value={dept}>
@@ -243,34 +224,31 @@ export default function Form({ open, handleClose }) {
                 </MenuItem>
               ))}
             </TextField>
+
             <TextField
-              label="Date of Birth"
+              label="Date of Birth*"
               name="dob"
               type="date"
               value={formData.dob}
               onChange={handleChange}
               InputLabelProps={{ shrink: true }}
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                },
-              }}
+              error={!!formErrors.dob}
+              sx={getFieldStyles("dob")}
             />
+
             <TextField
-              label="Date of Joining"
+              label="Date of Joining*"
               name="doj"
               type="date"
               value={formData.doj}
               onChange={handleChange}
               InputLabelProps={{ shrink: true }}
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                },
-              }}
+              error={!!formErrors.doj}
+              sx={getFieldStyles("doj")}
             />
+
             <TextField
               label="Photo URL"
               name="photo"
@@ -278,11 +256,7 @@ export default function Form({ open, handleClose }) {
               onChange={handleChange}
               variant="outlined"
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                },
-              }}
+              sx={getFieldStyles("photo")}
             />
 
             <Button
@@ -310,22 +284,6 @@ export default function Form({ open, handleClose }) {
         </DialogContent>
       </Dialog>
 
-      {/* Snackbar for validation errors 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          severity="warning"
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          sx={{ width: "100%" }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-      */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={5000}
@@ -333,7 +291,7 @@ export default function Form({ open, handleClose }) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
-          severity={snackbar.severity || "warning"} // <-- dynamic severity
+          severity={snackbar.severity || "warning"}
           onClose={() => setSnackbar({ ...snackbar, open: false })}
           sx={{ zIndex: 9999, width: "100%" }}
         >

@@ -70,7 +70,7 @@ const Signup = () => {
 
     try {
       const res = await axios.post(
-        "https://teambirthdayanniversarytracker.onrender.com/signup",
+        `${process.env.REACT_APP_API_URL}/signup`,
         formData
       );
       setSnackbar({

@@ -35,7 +35,7 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "https://teambirthdayanniversarytracker.onrender.com/dashboard",
+          `${process.env.REACT_APP_API_URL}/dashboard`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -59,7 +59,7 @@ const Dashboard = () => {
   const fetchMonthEvents = async (query = "") => {
     try {
       const res = await axios.get(
-        "https://teambirthdayanniversarytracker.onrender.com/events/month",
+        `${process.env.REACT_APP_API_URL}/events/month`,
         {
           params: { search: query },
         }
@@ -74,7 +74,7 @@ const Dashboard = () => {
     const fetchTodayEvents = async () => {
       try {
         const todayRes = await axios.get(
-          "https://teambirthdayanniversarytracker.onrender.com/events/today"
+          `${process.env.REACT_APP_API_URL}/events/today`
         );
         setTodayEvents(todayRes.data || []);
       } catch (err) {
@@ -147,16 +147,13 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="main-content">
-
         <div>
-      {todayEvents.length > 0 && (
-        <div className="banner">
-          {todayEvents.length} event(s) today!
-        </div>
-      )}
+          {todayEvents.length > 0 && (
+            <div className="banner">{todayEvents.length} event(s) today!</div>
+          )}
 
-      {/* Render events list here */}
-    </div>
+          {/* Render events list here */}
+        </div>
         {/* Today’s Celebrations */}
         <section className="events-section">
           <h2>🎉 Today’s Celebrations</h2>

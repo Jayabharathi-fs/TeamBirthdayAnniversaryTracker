@@ -30,12 +30,9 @@ export default function DataTable({ open, handleClose }) {
 
   const fetchEmployees = async (query = "") => {
     try {
-      const res = await axios.get(
-        "https://teambirthdayanniversarytracker.onrender.com/employee",
-        {
-          params: { search: query },
-        }
-      );
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/employee`, {
+        params: { search: query },
+      });
 
       const formattedRows = res.data.map((emp) => ({
         id: emp._id,

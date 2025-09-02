@@ -52,7 +52,7 @@ const Login = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://teambirthdayanniversarytracker.onrender.com/login",
+        `${process.env.REACT_APP_API_URL}/login`,
         formData
       );
       setSnackbar({
