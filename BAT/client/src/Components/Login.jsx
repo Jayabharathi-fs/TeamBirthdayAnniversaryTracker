@@ -10,6 +10,7 @@ import {
   Paper,
   Link,
 } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -20,6 +21,7 @@ const Login = () => {
     message: "",
     severity: "warning",
   });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,6 +50,7 @@ const Login = () => {
     if (!validateForm()) return;
 
     try {
+      setLoading(true);
       const res = await axios.post(
         "https://teambirthdayanniversarytracker.onrender.com/login",
         formData
@@ -59,8 +62,12 @@ const Login = () => {
       });
       setFormData({ username: "", password: "" });
       localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/dashboard");
+      }, 1000);
     } catch (err) {
+      setLoading(false);
       setSnackbar({
         open: true,
         message: err.response?.data?.message || "Login failed",
@@ -150,6 +157,7 @@ const Login = () => {
               type="submit"
               variant="contained"
               fullWidth
+              disabled={loading}
               sx={{
                 mt: 3,
                 borderRadius: 3,
@@ -163,7 +171,11 @@ const Login = () => {
                 },
               }}
             >
-              Login
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Login"
+              )}
             </Button>
           </Box>
 

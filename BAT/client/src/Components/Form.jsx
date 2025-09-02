@@ -38,7 +38,11 @@ export default function Form({ open, handleClose }) {
   });
 
   // Snackbar included
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "info",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -101,19 +105,21 @@ export default function Form({ open, handleClose }) {
       );
       setSnackbar({
         open: true,
-        message: res.data.message,
+        message: res.data.message || "Employee added successfully!",
         severity: "success",
       });
-      handleClose(); // closing the dialog
-      setFormData({
-        // reset form
-        name: "",
-        email: "",
-        department: "",
-        dob: "",
-        doj: "",
-        photo: "https://example.com/default-photo.jpg",
-      });
+
+      setTimeout(() => {
+        handleClose();
+        setFormData({
+          name: "",
+          email: "",
+          department: "",
+          dob: "",
+          doj: "",
+          photo: "https://example.com/default-photo.jpg",
+        });
+      }, 2000);
     } catch (err) {
       setSnackbar({
         open: true,
@@ -180,7 +186,7 @@ export default function Form({ open, handleClose }) {
             }}
           >
             <TextField
-              label="Name"
+              label="Name*"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -322,14 +328,14 @@ export default function Form({ open, handleClose }) {
       */}
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
           severity={snackbar.severity || "warning"} // <-- dynamic severity
           onClose={() => setSnackbar({ ...snackbar, open: false })}
-          sx={{ width: "100%" }}
+          sx={{ zIndex: 9999, width: "100%" }}
         >
           {snackbar.message}
         </Alert>
